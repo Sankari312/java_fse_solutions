@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Community Event Portal</title>
+  <style>
+    body {
+        background-color: #ef79b8c4;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    nav a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: darkblue;
+    }
+    #welcomeBanner {
+      background-color: rgb(144, 48, 152);
+      padding: 10px;
+      text-align: center;
+    }
+    .highlight {
+      background-color: rgb(243, 233, 241);
+      font-weight: bold;
+    }
+    .event-img {
+      border: 2px solid rgb(15, 7, 7);
+      width: 150px;
+      height: auto;
+    }
+    form {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #1d1803;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+    <a href="help.html" target="_blank">Help</a>
+  </nav>
+
+  <!-- Welcome Banner -->
+  <div id="welcomeBanner">
+    Welcome, <span style="color: rgb(230, 219, 226); font-weight: bold;">Early Bird Offer!</span>
+    <p class="highlight">Enjoy our upcoming community events.</p>
+  </div>
+
+  <!-- Main -->
+  <main>
+    <!-- Home Section -->
+     <center>
+    <section id="home">
+      <h2>Home</h2>
+      <p>Welcome to your local community events portal – a place to discover exciting happenings, connect with neighbors, and celebrate the spirit of togetherness!</p>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+      <h2>Events</h2>
+
+      <!-- Image Gallery -->
+      <table border="1">
+        <caption>Community Event Highlights</caption>
+        <tr>
+          <td><img src="D:\placement training\homework\practice\char.webp" alt="Charity Run" title="Charity Run" class="event-img"></td>
+          <td><img src="D:\placement training\homework\practice\fd.jpg" alt="Food Drive" title="Food Drive" class="event-img"></td>
+          <td><img src="D:\placement training\homework\practice\ff.jpeg" alt="Food Fiesta" title="Food Fiesta" class="event-img"></td>
+        </tr>
+        <tr>
+          <td><img src="D:\placement training\homework\practice\cd.jpg" alt="Clean Up Drive" title="Clean Up Drive" class="event-img"></td>
+          <td><img src="D:\placement training\homework\practice\yoga.jpg" alt="Yoga Session" title="Yoga Session" class="event-img"></td>
+          <td><img src="D:\placement training\homework\practice\art.jpeg" alt="Art Fair" title="Art Fair" class="event-img"></td>
+        </tr>
+      </table>
+
+      <!-- Event Registration Form -->
+      <h3>Register for an Event</h3>
+      <form onsubmit="showConfirmation(); return false;">
+        <input type="text" name="name" placeholder="Your Name" required autofocus><br><br>
+        <input type="email" name="email" placeholder="Your Email" required><br><br>
+        <input type="date" name="date" required><br><br>
+
+        <!-- Updated Dropdown with Food Fiesta -->
+        <select name="eventType" id="eventType" onchange="savePreference()" required>
+          <option value="">Choose Event Type</option>
+          <option value="Music">Music</option>
+          <option value="Yoga">Yoga</option>
+          <option value="Sports">Sports</option>
+          <option value="Food Fiesta">Food Fiesta</option>
+        </select><br><br>
+
+        <textarea name="message" placeholder="Your message..."></textarea><br><br>
+
+        <button type="submit">Register</button>
+        <output id="confirmation"></output>
+      </form>
+
+      <!-- Video Invite -->
+      <h3>Event Promo Video</h3>
+      <video width="320" height="240" controls oncanplay="videoReadyMessage()">
+        <source src="D:\placement training\homework\practice\promo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p id="videoStatus"></p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact & Feedback</h2>
+
+      <!-- Feedback Form -->
+      <form>
+        Phone: <input type="text" id="phone" onblur="validatePhone()"><br><br>
+
+        Event Type:
+        <select onchange="showFee(this.value)">
+          <option value="0">Select</option>
+          <option value="10">Yoga - $10</option>
+          <option value="20">Music - $20</option>
+          <option value="15">Food Fiesta - $15</option>
+        </select>
+        <p id="feeInfo"></p>
+
+        <button type="button" onclick="alert('Submitted!')">Submit</button><br><br>
+
+        <img src="D:\placement training\homework\practice\cme.jpeg" ondblclick="this.style.width='300px';" width="150"><br><br>
+
+        Feedback:<br>
+        <textarea onkeyup="countChars(this)"></textarea>
+        <p id="charCount">Characters: 0</p>
+      </form>
+
+      <!-- Preferences -->
+      <h3>Your Preferences</h3>
+      <button onclick="clearPreferences()">Clear Preferences</button><br><br>
+
+      <!-- Geolocation -->
+      <button onclick="findLocation()">Find Nearby Events</button>
+      <p id="locationInfo"></p>
+    </section>
+</center>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Local City Council</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    function showConfirmation() {
+      document.getElementById("confirmation").innerText = "Thank you for registering!";
+    }
+
+    function validatePhone() {
+      const phone = document.getElementById("phone").value;
+      if (!/^\d{10}$/.test(phone)) {
+        alert("Invalid phone number. Must be 10 digits.");
+      }
+    }
+
+    function showFee(value) {
+      document.getElementById("feeInfo").innerText = `Fee: $${value}`;
+    }
+
+    function countChars(elem) {
+      document.getElementById("charCount").innerText = "Characters: " + elem.value.length;
+    }
+
+    function videoReadyMessage() {
+      document.getElementById("videoStatus").innerText = "Video ready to play";
+    }
+
+    window.onbeforeunload = function () {
+      return "Are you sure you want to leave? Your form is not submitted.";
+    };
+
+    function savePreference() {
+      const preference = document.getElementById("eventType").value;
+      localStorage.setItem("eventPref", preference);
+    }
+
+    function clearPreferences() {
+      localStorage.clear();
+      sessionStorage.clear();
+      alert("Preferences cleared");
+    }
+
+    window.onload = function () {
+      const savedPref = localStorage.getItem("eventPref");
+      if (savedPref) {
+        document.getElementById("eventType").value = savedPref;
+      }
+    };
+
+    function findLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError, {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        });
+      } else {
+        document.getElementById("locationInfo").innerText = "Geolocation not supported.";
+      }
+    }
+
+    function showPosition(position) {
+      const coords = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+      document.getElementById("locationInfo").innerText = coords;
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Permission denied for location.");
+          break;
+        case error.TIMEOUT:
+          alert("Location request timed out.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
